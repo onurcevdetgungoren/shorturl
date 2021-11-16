@@ -6,6 +6,19 @@ This is URL Shortening App. Developed with Flutter. integrated the shortcode API
 (Note: Run this project in flutter version 1.22.6)
 
 
+EXPLANATION
+
+This project designed with MVVM pattern and used Provider package for State Management. 
+
+There is an abstract class in Service document which is used for creating http and viewModel functions. In viewModel and Network classes, applied abstract classes and functions. Used http library for http request and local storage with sqflite for URL records. 
+
+Created a table which is include urldd, shortUrl and longUrl in sqFlite and records are adding into this table.There is a dbHelper_base abstract class in Utils document which is used for functions belongs to databaseHelper and viewModel. dbHelper_base abstract class implemented in these class.
+
+All states designed and set in viewmodel.
+
+Created model classes for api and local database datas in Model document.
+
+
 
 The following libraries were used
 
