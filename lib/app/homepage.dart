@@ -5,7 +5,6 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:shorturl/model/urlHistory.dart';
-import 'package:shorturl/utils/databaseHelper.dart';
 import 'package:shorturl/viewModel/shortUrl_viewModel.dart';
 import 'package:shorturl/viewModel/urlHistory_viewModel.dart';
 
@@ -19,7 +18,6 @@ class _HomepageState extends State<Homepage> {
   TextEditingController _longUrlController = TextEditingController();
   double deviceWidth;
   double deviceHeight;
-  DatabaseHelper databaseHelper = DatabaseHelper();
   List<Map<String, dynamic>> _mapList;
   List<UrlHistoryModel> _urlHistoryModel;
   UrlHistoryViewModel _urlHistoryViewModel;
@@ -199,7 +197,21 @@ class _HomepageState extends State<Homepage> {
                                   fontWeight: FontWeight.bold, fontSize: 20),
                             ),
                             onPressed: () async {
-                              if (_longUrlController.text.contains(".") && _textFieldLongUrl.length > 4) {
+                              for (var a in _urlHistoryModel) {
+                                if (a.longUrl == _longUrlController.text) {
+                                  showToast("Entered url is not valid",
+                                      duration: Duration(seconds: 2),
+                                      curve: Curves.elasticOut,
+                                      reverseCurve: Curves.elasticOut,
+                                      context: context,
+                                      axis: Axis.horizontal,
+                                      alignment: Alignment.center,
+                                      position: StyledToastPosition.center);
+                                  return null;
+                                }
+                              }
+                              if (_longUrlController.text.contains(".") &&
+                                  _textFieldLongUrl.length > 4) {
                                 await _shortUrlViewModel
                                     .shortUrl(_longUrlController.text);
                                 // print("BURADA!!!" + _shortUrlViewModel
