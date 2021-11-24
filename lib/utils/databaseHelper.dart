@@ -11,6 +11,9 @@ class DatabaseHelper implements DbHeplerBase {
   static Database _database;
 
   factory DatabaseHelper() {
+    //Singleton
+    //const ta db oluşup oluşmadığının kontrolünü sağladık
+    //return olduğu için factory olarak kullandık
     if (_databaseHelper == null) {
       _databaseHelper = DatabaseHelper._internal();
       return _databaseHelper;
@@ -19,13 +22,16 @@ class DatabaseHelper implements DbHeplerBase {
     }
   }
 
+  //isimlendirilmiş const, bu sayede dbHelper null ise oluşturulmasını sağladık.
   DatabaseHelper._internal();
 
   Future<Database> _getDatabase() async {
+    //Burada db var mı kontrolü yapılıyor, yoksa aşağıdaki initializedb fonksiyonu çağırılıp oluşturuluyor.
     if (_database == null) {
       _database = await _initializeDatabase();
       return _database;
     } else {
+      //db oluşturulmuş ise mevcut olanı return ediyor.
       return _database;
     }
   }
@@ -68,11 +74,18 @@ class DatabaseHelper implements DbHeplerBase {
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getHistory() async {
+  Future<List<UrlHistoryModel>> getHistory() async {
+    List<UrlHistoryModel> _urlHistoryList = List<UrlHistoryModel>();
+    List<Map<String, dynamic>> _mapList;
     var db = await _getDatabase();
     var sonuc = await db.query("urlhistory");
-    print(sonuc.toString());
-    return sonuc;
+    _mapList = sonuc;
+    print(_mapList.toString());
+    for (Map<String, dynamic> a in _mapList) {
+      _urlHistoryList.add(UrlHistoryModel.fromMap(a));
+      print(_urlHistoryList[0].longUrl);
+    }
+    return _urlHistoryList;
   }
 
   @override
@@ -81,5 +94,13 @@ class DatabaseHelper implements DbHeplerBase {
     var sonuc =
         await db.delete("urlhistory", where: 'urlID = ?', whereArgs: [urlID]);
     return sonuc;
+  }
+
+  @override
+  Future<bool> isInHistory(String url) async {
+    var db = await _getDatabase();
+    var sonuc =
+        await db.query("urlhistory", where: 'longUrl = ?', whereArgs: [url]);
+    return sonuc.isNotEmpty;
   }
 }

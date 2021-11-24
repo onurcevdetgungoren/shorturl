@@ -6,6 +6,6 @@ import 'package:shorturl/viewModel/urlHistory_viewModel.dart';
 GetIt locator = GetIt.instance;
 void setupLocator() {
   locator.registerLazySingleton(() => ServicesClient());
-  locator.registerLazySingleton(() => UrlHistoryViewModel());
-  locator.registerLazySingleton(() => ShortUrlViewModel());
+  locator.registerFactory(() => UrlHistoryViewModel());
+  locator.registerFactory(() => ShortUrlViewModel());
 }

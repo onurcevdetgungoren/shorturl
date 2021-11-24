@@ -1,10 +1,6 @@
 // To parse this JSON data, do
 //
 //     final urlHistoryModel = urlHistoryModelFromMap(jsonString);
-
-import 'dart:convert';
-
-
 class UrlHistoryModel {
   UrlHistoryModel({this.longUrl, this.shortUrl});
   UrlHistoryModel.withID({this.urlID, this.longUrl, this.shortUrl});
