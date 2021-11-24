@@ -5,17 +5,14 @@ import 'package:shorturl/locator.dart';
 import 'package:shorturl/viewModel/shortUrl_viewModel.dart';
 import 'package:shorturl/viewModel/urlHistory_viewModel.dart';
 
-void main() async{
+void main() async {
   setupLocator();
-  WidgetsFlutterBinding.ensureInitialized();
   runApp(MultiProvider(providers: [
     //1 den fazla Provider kullanacağımız için MultiProvider oluşturduk
     (ChangeNotifierProvider<UrlHistoryViewModel>(
-      //Plakalar İçin Provider
       create: (context) => UrlHistoryViewModel(),
     )),
     (ChangeNotifierProvider<ShortUrlViewModel>(
-      //Plakalar İçin Provider
       create: (context) => ShortUrlViewModel(),
     )),
   ], child: MyApp()));
